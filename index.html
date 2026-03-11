@@ -1,1 +1,54 @@
-<html><body><h1>Hello GitHub Pages</h1></body></html>
+---
+layout: default
+title: Accueil
+---
+
+<div class="container">
+
+  <!-- ===== PROFIL ===== -->
+  <section class="section" id="profil">
+    <h2 class="section-title">Profil</h2>
+    <p>
+      Chercheur avec de nombreuse années d'expérience en IA et en modélisation, mon parcours professionnel m'a également donné l'occasion de travailler plusieurs années dans le domaine de la gouvernance et de la sécurité des systèmes d'IA.
+    </p>
+    <p style="margin-top:0.9rem;">
+      J'ai l'expertise nécessaire pour vous aider à prendre avec succès le virage de l'IA.
+    </p>
+  </section>
+
+  <!-- ===== CONTACT ===== -->
+  <section class="section" id="contact">
+    <h2 class="section-title">Contact</h2>
+    <a href="mailto:xxx.yyy@gmail.com" class="contact-email">
+      &#9993;&nbsp; xxx.yyy@gmail.com
+    </a>
+  </section>
+
+  <!-- ===== BLOG (articles récents) ===== -->
+  <section class="section" id="blog">
+    <h2 class="section-title">Articles récents</h2>
+    <div class="post-list">
+      {% for post in site.posts limit:5 %}
+      <div class="post-card">
+        <div class="post-card-title"><a href="{{ post.url | relative_url }}">{{ post.title }}</a></div>
+        <div class="post-meta">
+          <span>{{ post.date | date: "%d %B %Y" }}</span>
+          {% if post.reading_time %}<span>{{ post.reading_time }} min de lecture</span>{% endif %}
+        </div>
+        {% if post.tags and post.tags.size > 0 %}
+        <div class="tags" style="margin-bottom:0.6rem;">
+          {% for tag in post.tags %}
+          <span class="tag">{{ tag }}</span>
+          {% endfor %}
+        </div>
+        {% endif %}
+        {% if post.excerpt %}<p class="post-excerpt">{{ post.excerpt }}</p>{% endif %}
+      </div>
+      {% endfor %}
+    </div>
+    <p style="margin-top:1.2rem;">
+      <a href="{{ '/blog.html' | relative_url }}">Voir tous les articles &#8594;</a>
+    </p>
+  </section>
+
+</div>

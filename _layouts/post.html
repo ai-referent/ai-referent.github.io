@@ -1,0 +1,29 @@
+---
+layout: default
+---
+
+<div class="container">
+  <a href="{{ '/blog.html' | relative_url }}" class="back-link">&#8592; Retour au blog</a>
+
+  <div class="post-header">
+    <h1>{{ page.title }}</h1>
+    <div class="post-meta">
+      <span>{{ page.date | date: "%d %B %Y" }}</span>
+      {% if page.author %}<span>{{ page.author }}</span>{% endif %}
+      {% if page.reading_time %}<span>{{ page.reading_time }} min de lecture</span>{% endif %}
+    </div>
+    {% if page.tags and page.tags.size > 0 %}
+    <div class="tags">
+      {% for tag in page.tags %}
+      <span class="tag">{{ tag }}</span>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+
+  <article class="post-content">
+    {{ content }}
+  </article>
+
+  <a href="{{ '/blog.html' | relative_url }}" class="back-link" style="margin-top:2.5rem;">&#8592; Retour au blog</a>
+</div>

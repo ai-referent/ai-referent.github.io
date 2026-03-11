@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% if page.title %}{{ page.title }} — {{ site.title }}{% else %}{{ site.title }}{% endif %}</title>
+  <meta name="description" content="{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}">
+  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="{{ '/' | relative_url }}" class="nav-brand">{{ site.title }}</a>
+    <button class="nav-toggle" aria-label="Menu" onclick="document.querySelector('.nav-links').classList.toggle('open')">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links">
+      <li><a href="{{ '/#profil' | relative_url }}">Profil</a></li>
+      <li><a href="{{ '/#contact' | relative_url }}">Contact</a></li>
+      <li><a href="{{ '/blog.html' | relative_url }}">Blog</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main>
+  {{ content }}
+</main>
+
+<footer>
+  <p>&copy; {{ 'now' | date: "%Y" }} {{ site.author }} &mdash; {{ site.description }}</p>
+</footer>
+
+</body>
+</html>
