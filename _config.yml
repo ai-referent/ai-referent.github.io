@@ -1,0 +1,14 @@
+title: AI Référent
+description: Expertise IA & gouvernance des systèmes d'intelligence artificielle
+lang: fr
+baseurl: ""
+url: "https://ai-referent.github.io"
+author: AI Referent
+permalink: /blog/:year/:month/:day/:title/
+
+markdown: kramdown
+highlighter: rouge
+
+exclude:
+  - README.md
+  - LICENSE
