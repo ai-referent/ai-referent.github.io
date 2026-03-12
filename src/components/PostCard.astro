@@ -18,20 +18,36 @@ const formattedDate = new Intl.DateTimeFormat('fr-FR', {
 }).format(date);
 ---
 
-<div class="post-card" data-tags={dataAttr}>
-  <div class="post-card-title">
-    <a href={url}>{title}</a>
+<article
+  class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow p-6 border border-gray-200"
+  data-tags={dataAttr}
+>
+  <h3 class="text-xl font-bold mb-3">
+    <a href={url} class="text-blue-600 hover:text-blue-700 transition">
+      {title}
+    </a>
+  </h3>
+
+  <div class="flex flex-wrap gap-4 text-sm text-gray-600 mb-4">
+    <span class="flex items-center">
+      📅 {formattedDate}
+    </span>
+    {reading_time && (
+      <span class="flex items-center">
+        ⏱️ {reading_time} min de lecture
+      </span>
+    )}
   </div>
-  <div class="post-meta">
-    <span>{formattedDate}</span>
-    {reading_time && <span>{reading_time} min de lecture</span>}
-  </div>
+
   {tags && tags.length > 0 && (
-    <div class="tags" style="margin-bottom: 0.6rem;">
+    <div class="flex flex-wrap gap-2 mb-4">
       {tags.map((tag) => (
-        <span class="tag">{tag}</span>
+        <span class="inline-block bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-sm font-medium hover:bg-purple-200 transition">
+          {tag}
+        </span>
       ))}
     </div>
   )}
-  {excerpt && <p class="post-excerpt">{excerpt}</p>}
-</div>
+
+  {excerpt && <p class="text-gray-700 line-clamp-3">{excerpt}</p>}
+</article>

@@ -26,12 +26,18 @@ posts.forEach((post) => {
 const uniqueTags = Array.from(tagsSet).sort();
 ---
 
-<div class="tag-filter-bar" id="tag-filter-bar">
-  <span class="filter-label">Filtrer&nbsp;:</span>
-  <button class="tag active" data-tag="all" onclick="filterPosts('all', this)">Tous</button>
+<div id="tag-filter-bar" class="mb-8 flex flex-wrap gap-3 items-center">
+  <span class="font-semibold text-gray-700">Filtrer&nbsp;:</span>
+  <button
+    class="filter-btn active px-4 py-2 rounded-full font-medium transition-all bg-blue-600 text-white hover:bg-blue-700"
+    data-tag="all"
+    onclick="filterPosts('all', this)"
+  >
+    Tous
+  </button>
   {uniqueTags.map((tag) => (
     <button
-      class="tag"
+      class="filter-btn px-4 py-2 rounded-full font-medium transition-all bg-gray-200 text-gray-700 hover:bg-gray-300"
       data-tag={tag}
       onclick={`filterPosts('${tag}', this)`}
     >
@@ -40,7 +46,7 @@ const uniqueTags = Array.from(tagsSet).sort();
   ))}
 </div>
 
-<div class="post-list" id="post-list">
+<div id="post-list" class="grid gap-6 md:grid-cols-2 lg:grid-cols-1">
   {posts.map((post) => {
     const tagsStr = post.data.tags?.map((t) => t.toLowerCase()).join(',') || '';
     const formattedDate = new Intl.DateTimeFormat('fr-FR', {
@@ -50,38 +56,53 @@ const uniqueTags = Array.from(tagsSet).sort();
     }).format(post.data.date);
 
     return (
-      <div class="post-card" data-tags={tagsStr}>
-        <div class="post-card-title">
-          <a href={`/blog/${post.slug}`}>{post.data.title}</a>
-        </div>
-        <div class="post-meta">
-          <span>{formattedDate}</span>
+      <article
+        class="post-card bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow p-6 border border-gray-200"
+        data-tags={tagsStr}
+      >
+        <h3 class="text-xl font-bold mb-3">
+          <a href={`/blog/${post.slug}`} class="text-blue-600 hover:text-blue-700 transition">
+            {post.data.title}
+          </a>
+        </h3>
+        <div class="flex flex-wrap gap-4 text-sm text-gray-600 mb-4">
+          <span class="flex items-center">
+            📅 {formattedDate}
+          </span>
           {post.data.reading_time && (
-            <span>{post.data.reading_time} min de lecture</span>
+            <span class="flex items-center">
+              ⏱️ {post.data.reading_time} min de lecture
+            </span>
           )}
         </div>
         {post.data.tags && post.data.tags.length > 0 && (
-          <div class="tags" style="margin-bottom: 0.6rem;">
+          <div class="flex flex-wrap gap-2 mb-4">
             {post.data.tags.map((tag) => (
-              <span class="tag">{tag}</span>
+              <span class="inline-block bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-sm font-medium hover:bg-purple-200 transition">
+                {tag}
+              </span>
             ))}
           </div>
         )}
         {post.data.excerpt && (
-          <p class="post-excerpt">{post.data.excerpt}</p>
+          <p class="text-gray-700 line-clamp-3">{post.data.excerpt}</p>
         )}
-      </div>
+      </article>
     );
   })}
 </div>
 
 <script>
   function filterPosts(tag: string, clickedBtn: HTMLElement | null) {
-    // Update active button
-    document.querySelectorAll('#tag-filter-bar .tag').forEach((b) => {
-      b.classList.remove('active');
+    // Update active button styling
+    document.querySelectorAll('#tag-filter-bar .filter-btn').forEach((b) => {
+      b.classList.remove('active', 'bg-blue-600', 'text-white', 'hover:bg-blue-700');
+      b.classList.add('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
     });
-    if (clickedBtn) clickedBtn.classList.add('active');
+    if (clickedBtn) {
+      clickedBtn.classList.add('active', 'bg-blue-600', 'text-white', 'hover:bg-blue-700');
+      clickedBtn.classList.remove('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
+    }
 
     // Show/hide cards
     document.querySelectorAll('#post-list .post-card').forEach((card) => {
