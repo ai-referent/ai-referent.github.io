@@ -1,0 +1,103 @@
+---
+interface Props {
+  posts: Array<{
+    slug: string;
+    data: {
+      title: string;
+      date: Date;
+      tags?: string[];
+      reading_time?: number;
+      excerpt?: string;
+    };
+  }>;
+}
+
+const { posts } = Astro.props;
+
+// Collect unique tags
+const tagsSet = new Set<string>();
+posts.forEach((post) => {
+  if (post.data.tags) {
+    post.data.tags.forEach((tag) => {
+      tagsSet.add(tag.toLowerCase());
+    });
+  }
+});
+const uniqueTags = Array.from(tagsSet).sort();
+---
+
+<div class="tag-filter-bar" id="tag-filter-bar">
+  <span class="filter-label">Filtrer&nbsp;:</span>
+  <button class="tag active" data-tag="all" onclick="filterPosts('all', this)">Tous</button>
+  {uniqueTags.map((tag) => (
+    <button
+      class="tag"
+      data-tag={tag}
+      onclick={`filterPosts('${tag}', this)`}
+    >
+      {tag.charAt(0).toUpperCase() + tag.slice(1)}
+    </button>
+  ))}
+</div>
+
+<div class="post-list" id="post-list">
+  {posts.map((post) => {
+    const tagsStr = post.data.tags?.map((t) => t.toLowerCase()).join(',') || '';
+    const formattedDate = new Intl.DateTimeFormat('fr-FR', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    }).format(post.data.date);
+
+    return (
+      <div class="post-card" data-tags={tagsStr}>
+        <div class="post-card-title">
+          <a href={`/blog/${post.slug}`}>{post.data.title}</a>
+        </div>
+        <div class="post-meta">
+          <span>{formattedDate}</span>
+          {post.data.reading_time && (
+            <span>{post.data.reading_time} min de lecture</span>
+          )}
+        </div>
+        {post.data.tags && post.data.tags.length > 0 && (
+          <div class="tags" style="margin-bottom: 0.6rem;">
+            {post.data.tags.map((tag) => (
+              <span class="tag">{tag}</span>
+            ))}
+          </div>
+        )}
+        {post.data.excerpt && (
+          <p class="post-excerpt">{post.data.excerpt}</p>
+        )}
+      </div>
+    );
+  })}
+</div>
+
+<script>
+  function filterPosts(tag: string, clickedBtn: HTMLElement | null) {
+    // Update active button
+    document.querySelectorAll('#tag-filter-bar .tag').forEach((b) => {
+      b.classList.remove('active');
+    });
+    if (clickedBtn) clickedBtn.classList.add('active');
+
+    // Show/hide cards
+    document.querySelectorAll('#post-list .post-card').forEach((card) => {
+      const element = card as HTMLElement;
+      if (tag === 'all') {
+        element.style.display = '';
+      } else {
+        const cardTags = (element.dataset.tags || '')
+          .split(',')
+          .map((t) => t.trim()
+          .toLowerCase());
+        element.style.display = cardTags.indexOf(tag) !== -1 ? '' : 'none';
+      }
+    });
+  }
+
+  // Make filterPosts globally accessible
+  (window as any).filterPosts = filterPosts;
+</script>

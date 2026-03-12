@@ -1,0 +1,41 @@
+---
+import { SITE_TITLE } from '../config';
+---
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-brand">{SITE_TITLE}</a>
+    <button
+      class="nav-toggle"
+      aria-label="Menu"
+      onclick="document.querySelector('.nav-links').classList.toggle('open')"
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <ul class="nav-links">
+      <li><a href="/#profil">Profil</a></li>
+      <li><a href="/#contact">Contact</a></li>
+      <li><a href="/blog/">Blog</a></li>
+    </ul>
+  </div>
+</nav>
+
+<script>
+  // Mobile menu toggle: prevent link clicks from closing menu when intentionally clicking links
+  document.querySelectorAll('.nav-links a').forEach((link) => {
+    link.addEventListener('click', (e) => {
+      // Allow anchor links to scroll to sections on home page
+      // but still close the menu
+      if (link.getAttribute('href')?.startsWith('/#')) {
+        setTimeout(() => {
+          document.querySelector('.nav-links')?.classList.remove('open');
+        }, 100);
+      } else {
+        // For other links, menu will close naturally
+        document.querySelector('.nav-links')?.classList.remove('open');
+      }
+    });
+  });
+</script>

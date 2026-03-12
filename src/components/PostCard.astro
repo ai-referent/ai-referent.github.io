@@ -1,0 +1,37 @@
+---
+interface Props {
+  title: string;
+  url: string;
+  date: Date;
+  tags?: string[];
+  reading_time?: number;
+  excerpt?: string;
+  dataAttr?: string;
+}
+
+const { title, url, date, tags, reading_time, excerpt, dataAttr } = Astro.props;
+
+const formattedDate = new Intl.DateTimeFormat('fr-FR', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+}).format(date);
+---
+
+<div class="post-card" data-tags={dataAttr}>
+  <div class="post-card-title">
+    <a href={url}>{title}</a>
+  </div>
+  <div class="post-meta">
+    <span>{formattedDate}</span>
+    {reading_time && <span>{reading_time} min de lecture</span>}
+  </div>
+  {tags && tags.length > 0 && (
+    <div class="tags" style="margin-bottom: 0.6rem;">
+      {tags.map((tag) => (
+        <span class="tag">{tag}</span>
+      ))}
+    </div>
+  )}
+  {excerpt && <p class="post-excerpt">{excerpt}</p>}
+</div>
