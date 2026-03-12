@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Color variables for theme */
+:root {
+  --primary: #4a7fc1;
+  --primary-hover: #3463a0;
+  --secondary: #c5b8e8;
+  --secondary-dark: #9b87cc;
+  --bg: #f0f4f8;
+  --card-bg: #eef0f8;
+  --text: #2c3e50;
+  --text-muted: #5a6d80;
+  --border: #b8c9e0;
+  --white: #ffffff;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Code highlighting */
+code {
+  background-color: #f3f4f6;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+}
+
+pre code {
+  background-color: #111827;
+  color: #f3f4f6;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  display: block;
+  overflow-x: auto;
+}

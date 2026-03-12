@@ -2,40 +2,50 @@
 import { SITE_TITLE } from '../config';
 ---
 
-<nav>
-  <div class="nav-inner">
-    <a href="/" class="nav-brand">{SITE_TITLE}</a>
-    <button
-      class="nav-toggle"
-      aria-label="Menu"
-      onclick="document.querySelector('.nav-links').classList.toggle('open')"
-    >
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
-    <ul class="nav-links">
-      <li><a href="/#profil">Profil</a></li>
-      <li><a href="/#contact">Contact</a></li>
-      <li><a href="/blog/">Blog</a></li>
+<nav class="sticky top-0 z-50 bg-white shadow-md border-b border-gray-200">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6">
+    <div class="flex justify-between items-center h-16">
+      <a href="/" class="text-xl font-bold text-blue-600 hover:text-blue-700 transition">
+        {SITE_TITLE}
+      </a>
+
+      <button
+        class="md:hidden flex flex-col justify-center items-center w-8 h-8 space-y-1"
+        aria-label="Menu"
+        id="mobile-menu-toggle"
+      >
+        <span class="block w-6 h-0.5 bg-gray-800 transition-all"></span>
+        <span class="block w-6 h-0.5 bg-gray-800 transition-all"></span>
+        <span class="block w-6 h-0.5 bg-gray-800 transition-all"></span>
+      </button>
+
+      <ul class="hidden md:flex space-x-8">
+        <li><a href="/#profil" class="text-gray-700 hover:text-blue-600 font-medium transition">Profil</a></li>
+        <li><a href="/#contact" class="text-gray-700 hover:text-blue-600 font-medium transition">Contact</a></li>
+        <li><a href="/blog/" class="text-gray-700 hover:text-blue-600 font-medium transition">Blog</a></li>
+      </ul>
+    </div>
+
+    <ul id="mobile-menu" class="hidden md:hidden pb-4 space-y-2">
+      <li><a href="/#profil" class="block py-2 text-gray-700 hover:text-blue-600 font-medium transition">Profil</a></li>
+      <li><a href="/#contact" class="block py-2 text-gray-700 hover:text-blue-600 font-medium transition">Contact</a></li>
+      <li><a href="/blog/" class="block py-2 text-gray-700 hover:text-blue-600 font-medium transition">Blog</a></li>
     </ul>
   </div>
 </nav>
 
 <script>
-  // Mobile menu toggle: prevent link clicks from closing menu when intentionally clicking links
-  document.querySelectorAll('.nav-links a').forEach((link) => {
-    link.addEventListener('click', (e) => {
-      // Allow anchor links to scroll to sections on home page
-      // but still close the menu
-      if (link.getAttribute('href')?.startsWith('/#')) {
-        setTimeout(() => {
-          document.querySelector('.nav-links')?.classList.remove('open');
-        }, 100);
-      } else {
-        // For other links, menu will close naturally
-        document.querySelector('.nav-links')?.classList.remove('open');
-      }
+  const menuToggle = document.getElementById('mobile-menu-toggle');
+  const mobileMenu = document.getElementById('mobile-menu');
+
+  menuToggle?.addEventListener('click', () => {
+    mobileMenu?.classList.toggle('hidden');
+  });
+
+  // Close menu when a link is clicked
+  document.querySelectorAll('#mobile-menu a').forEach((link) => {
+    link.addEventListener('click', () => {
+      mobileMenu?.classList.add('hidden');
     });
   });
 </script>

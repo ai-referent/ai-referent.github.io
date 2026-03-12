@@ -14,30 +14,40 @@ const recentPosts = sortedPosts.slice(0, 5);
 ---
 
 <DefaultLayout title="Accueil">
-  <div class="container">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-12">
+    <!-- ===== HERO SECTION ===== -->
+    <section class="mb-16 py-12 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-8 border border-gray-200">
+      <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">AI Référent</h1>
+      <p class="text-xl text-gray-700">Expertise en intelligence artificielle et gouvernance des systèmes IA</p>
+    </section>
+
     <!-- ===== PROFIL ===== -->
-    <section class="section" id="profil">
-      <h2 class="section-title">Profil</h2>
-      <p>
-        Chercheur avec de nombreuse années d'expérience en IA et en modélisation, mon parcours professionnel m'a également donné l'occasion de travailler plusieurs années dans le domaine de la gouvernance et de la sécurité des systèmes d'IA.
-      </p>
-      <p style="margin-top: 0.9rem;">
-        J'ai l'expertise nécessaire pour vous aider à prendre avec succès le virage de l'IA.
-      </p>
+    <section id="profil" class="mb-16">
+      <h2 class="text-3xl font-bold mb-6 text-gray-900">👤 Profil</h2>
+      <div class="bg-white rounded-lg shadow-md p-8 border border-gray-200">
+        <p class="text-lg text-gray-700 mb-4 leading-relaxed">
+          Chercheur avec de nombreuse années d'expérience en IA et en modélisation, mon parcours professionnel m'a également donné l'occasion de travailler plusieurs années dans le domaine de la gouvernance et de la sécurité des systèmes d'IA.
+        </p>
+        <p class="text-lg text-gray-700 leading-relaxed">
+          J'ai l'expertise nécessaire pour vous aider à prendre avec succès le virage de l'IA.
+        </p>
+      </div>
     </section>
 
     <!-- ===== CONTACT ===== -->
-    <section class="section" id="contact">
-      <h2 class="section-title">Contact</h2>
-      <a href="mailto:xxx.yyy@gmail.com" class="contact-email">
-        &#9993;&nbsp; xxx.yyy@gmail.com
-      </a>
+    <section id="contact" class="mb-16">
+      <h2 class="text-3xl font-bold mb-6 text-gray-900">✉️ Contact</h2>
+      <div class="bg-white rounded-lg shadow-md p-8 border border-gray-200">
+        <a href="mailto:xxx.yyy@gmail.com" class="inline-flex items-center text-lg font-semibold text-blue-600 hover:text-blue-700 transition">
+          📧 xxx.yyy@gmail.com
+        </a>
+      </div>
     </section>
 
     <!-- ===== BLOG (articles récents) ===== -->
-    <section class="section" id="blog">
-      <h2 class="section-title">Articles récents</h2>
-      <div class="post-list">
+    <section id="blog" class="mb-16">
+      <h2 class="text-3xl font-bold mb-6 text-gray-900">📝 Articles récents</h2>
+      <div class="grid gap-6">
         {recentPosts.map((post) => (
           <PostCard
             title={post.data.title}
@@ -49,9 +59,11 @@ const recentPosts = sortedPosts.slice(0, 5);
           />
         ))}
       </div>
-      <p style="margin-top: 1.2rem;">
-        <a href="/blog/">Voir tous les articles &#8594;</a>
-      </p>
+      <div class="mt-8 text-center">
+        <a href="/blog/" class="inline-block bg-blue-600 text-white font-semibold px-8 py-3 rounded-lg hover:bg-blue-700 transition">
+          Voir tous les articles ↠
+        </a>
+      </div>
     </section>
   </div>
 </DefaultLayout>
