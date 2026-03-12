@@ -1,1 +1,0 @@
-document.querySelectorAll(".nav-links a").forEach(e=>{e.addEventListener("click",t=>{e.getAttribute("href")?.startsWith("/#")?setTimeout(()=>{document.querySelector(".nav-links")?.classList.remove("open")},100):document.querySelector(".nav-links")?.classList.remove("open")})});
