@@ -1,0 +1,47 @@
+---
+import DefaultLayout from './DefaultLayout.astro';
+import { SITE_TITLE } from '../config';
+
+interface Props {
+  title: string;
+  date: Date;
+  author?: string;
+  tags?: string[];
+  reading_time?: number;
+  description?: string;
+}
+
+const { title, date, author, tags, reading_time, description } = Astro.props;
+
+const formattedDate = new Intl.DateTimeFormat('fr-FR', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+}).format(date);
+---
+
+<DefaultLayout title={title} description={description}>
+  <div class="container">
+    <div class="post-header">
+      <h1>{title}</h1>
+      <div class="post-meta">
+        <span>{formattedDate}</span>
+        {author && <span>{author}</span>}
+        {reading_time && <span>{reading_time} min de lecture</span>}
+      </div>
+      {tags && tags.length > 0 && (
+        <div class="tags" style="margin-top: 0.8rem;">
+          {tags.map((tag) => (
+            <span class="tag">{tag}</span>
+          ))}
+        </div>
+      )}
+    </div>
+
+    <article class="post-content">
+      <slot />
+    </article>
+
+    <a href="/blog/" class="back-link">← Retour au blog</a>
+  </div>
+</DefaultLayout>

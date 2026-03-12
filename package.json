@@ -1,0 +1,15 @@
+{
+  "name": "ai-referent-astro",
+  "version": "1.0.0",
+  "description": "AI Référent blog - Astro",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "sync": "astro sync"
+  },
+  "dependencies": {
+    "astro": "^4.0.0"
+  }
+}

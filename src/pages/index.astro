@@ -1,0 +1,57 @@
+---
+import { getCollection } from 'astro:content';
+import DefaultLayout from '../layouts/DefaultLayout.astro';
+import PostCard from '../components/PostCard.astro';
+
+// Get all posts and sort by date (newest first)
+const allPosts = await getCollection('blog');
+const sortedPosts = allPosts.sort((a, b) => {
+  return new Date(b.data.date).getTime() - new Date(a.data.date).getTime();
+});
+
+// Get the 5 most recent posts
+const recentPosts = sortedPosts.slice(0, 5);
+---
+
+<DefaultLayout title="Accueil">
+  <div class="container">
+    <!-- ===== PROFIL ===== -->
+    <section class="section" id="profil">
+      <h2 class="section-title">Profil</h2>
+      <p>
+        Chercheur avec de nombreuse années d'expérience en IA et en modélisation, mon parcours professionnel m'a également donné l'occasion de travailler plusieurs années dans le domaine de la gouvernance et de la sécurité des systèmes d'IA.
+      </p>
+      <p style="margin-top: 0.9rem;">
+        J'ai l'expertise nécessaire pour vous aider à prendre avec succès le virage de l'IA.
+      </p>
+    </section>
+
+    <!-- ===== CONTACT ===== -->
+    <section class="section" id="contact">
+      <h2 class="section-title">Contact</h2>
+      <a href="mailto:xxx.yyy@gmail.com" class="contact-email">
+        &#9993;&nbsp; xxx.yyy@gmail.com
+      </a>
+    </section>
+
+    <!-- ===== BLOG (articles récents) ===== -->
+    <section class="section" id="blog">
+      <h2 class="section-title">Articles récents</h2>
+      <div class="post-list">
+        {recentPosts.map((post) => (
+          <PostCard
+            title={post.data.title}
+            url={`/blog/${post.slug}`}
+            date={post.data.date}
+            tags={post.data.tags}
+            reading_time={post.data.reading_time}
+            excerpt={post.data.excerpt}
+          />
+        ))}
+      </div>
+      <p style="margin-top: 1.2rem;">
+        <a href="/blog/">Voir tous les articles &#8594;</a>
+      </p>
+    </section>
+  </div>
+</DefaultLayout>
