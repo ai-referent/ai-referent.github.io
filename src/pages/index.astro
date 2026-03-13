@@ -15,10 +15,18 @@ const recentPosts = sortedPosts.slice(0, 5);
 
 <DefaultLayout title="Accueil">
   <div class="max-w-6xl mx-auto px-4 sm:px-6 py-12">
+
     <!-- ===== HERO SECTION ===== -->
-    <section class="mb-16 py-12 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-8 border border-gray-200">
-      <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">AI Référent</h1>
-      <p class="text-xl text-gray-700">Expertise en intelligence artificielle et gouvernance des systèmes IA</p>
+    <section class="mb-16 bg-gradient-to-r from-blue-50 via-indigo-50 to-amber-50 rounded-xl p-8 border border-gray-200">
+      <div class="flex flex-col md:flex-row items-center gap-8">
+        <div class="flex-1">
+          <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">AI Référent</h1>
+          <p class="text-xl text-gray-700">Expertise en intelligence artificielle et gouvernance des systèmes IA</p>
+        </div>
+        <div class="flex-shrink-0">
+          <img src="/ai-expertise.png" alt="AI Expertise" class="w-48 md:w-56 rounded-xl shadow-md" />
+        </div>
+      </div>
     </section>
 
     <!-- ===== PROFIL ===== -->
@@ -65,5 +73,6 @@ const recentPosts = sortedPosts.slice(0, 5);
         </a>
       </div>
     </section>
+
   </div>
 </DefaultLayout>
