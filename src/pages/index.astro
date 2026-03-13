@@ -2,6 +2,9 @@
 import { getCollection } from 'astro:content';
 import DefaultLayout from '../layouts/DefaultLayout.astro';
 import PostCard from '../components/PostCard.astro';
+import { readFileSync } from 'fs';
+
+const svgDiagram = readFileSync('./secure-agentic-diagram.svg', 'utf-8');
 
 // Get all posts and sort by date (newest first)
 const allPosts = await getCollection('blog');
@@ -23,9 +26,7 @@ const recentPosts = sortedPosts.slice(0, 5);
           <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">AI Référent</h1>
           <p class="text-xl text-gray-700">Expertise en intelligence artificielle et gouvernance des systèmes IA</p>
         </div>
-        <div class="flex-shrink-0">
-          <img src="/ai-expertise.png" alt="AI Expertise" class="w-48 md:w-56 rounded-xl shadow-md" />
-        </div>
+        <div class="flex-shrink-0 w-56 md:w-72" set:html={svgDiagram} />
       </div>
     </section>
 
