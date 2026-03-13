@@ -21,3 +21,5 @@ The conclusion is that traceability is more complex than it first appears. It ha
 To be complete, there is a separate property often mentioned about traceability: **integrity**. But this is rather a property of the logging infrastructure itself: Technically, an append-only structure, hash-chained entries, and cryptographic signing ensure that the trace cannot be silently modified or fabricated after the fact. This is needed to support  non-repudiation. It is less about what the trace contains than about whether the trace can be trusted at all.
 
 Numerous traceability-related questions remain open. Agents rarely work in isolation: the output of one often becomes the input of another, chaining decisions across a pipeline in ways that make attribution even harder. But this does not undermine our distinction — if anything, it sharpens it. Whether you are tracing a single agent or an entire multi-agent system, you still need to capture what it did and why it reasoned that way. That duality holds at every level of the chain. And it opens up plenty of ground for future posts.
+
+EEE
