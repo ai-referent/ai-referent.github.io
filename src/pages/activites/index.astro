@@ -1,0 +1,27 @@
+---
+import DefaultLayout from '../../layouts/DefaultLayout.astro';
+---
+
+<DefaultLayout title="Activités">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-12">
+
+    <div class="mb-12">
+      <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">🎯 Activités</h1>
+      <p class="text-xl text-gray-600">Voici les deux activités disponibles.</p>
+    </div>
+
+    <div class="grid gap-8 md:grid-cols-2">
+
+      <a href="/activites/activite1/" class="group bg-white rounded-lg shadow-md p-8 border border-gray-200 hover:border-blue-400 hover:shadow-lg transition">
+        <h2 class="text-2xl font-bold text-gray-900 group-hover:text-blue-600 transition mb-3">Activité 1</h2>
+        <p class="text-gray-600">Découvrir l'activité 1 ↠</p>
+      </a>
+
+      <a href="/activites/activite2/" class="group bg-white rounded-lg shadow-md p-8 border border-gray-200 hover:border-blue-400 hover:shadow-lg transition">
+        <h2 class="text-2xl font-bold text-gray-900 group-hover:text-blue-600 transition mb-3">Activité 2</h2>
+        <p class="text-gray-600">Découvrir l'activité 2 ↠</p>
+      </a>
+
+    </div>
+  </div>
+</DefaultLayout>
