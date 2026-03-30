@@ -40,18 +40,65 @@ Ces imbrications reflètent cinq propriétés fondamentales des agents : ils son
 
 Les agents ne sont pas de simples NHI en plus grand nombre. Ils ont des propriétés qui mettent structurellement en difficulté les concepts et protocoles sur lesquels repose l'IAM (*Identity Access Management*) traditionnel. Le tableau ci-dessous met en regard les caractéristiques des agents et les aspects de l'IAM impactés par ces caractéristiques.
 
-| Propriété | Conséquence | Aspects IAM mis en difficulté |
-|---|---|---|
-| Multiples | Volume massif de nouvelles identités à provisionner | Provisionnement (SCIM, workflows IGA) |
-| Multiples + Éphémères | Volume massif de credentials à émettre, rotation et révocation à grande échelle | Gestion des credentials et secrets (PKI, gestionnaires de secrets) |
-| Éphémères | Identités disparaissant avant toute révision possible | Recertification, access reviews (IGA) |
-| Rapides | Centaines de sessions et appels ouverts/fermés en quelques minutes | Gestion des sessions, JIT access |
-| Non-déterministes | Comportement légitime variable d'une exécution à l'autre | Détection comportementale (UEBA, ITDR) — baseline comportementale structurellement difficile à établir |
-| Non-déterministes | Séquence d'appels et chemins d'exécution variables et opaques | Journalisation et traçabilité des accès |
-| Autonomes | Aucun principal humain identifiable derrière l'agent, aucune interaction humaine dans la boucle d'authentification | Authentification et fédération d'identité (SAML, OIDC) — conçus autour d'un humain qui consent et s'authentifie |
-| Autonomes | Accès à des ressources non anticipées a priori | Contrôle d'accès aux ressources (RBAC, ABAC, least privilege) |
-| Autonomes | Actions non anticipées initiées par l'agent (écriture, envoi, appel externe…) | Politiques d'autorisation des actions — supposent qu'on peut énumérer l'espace des actions possibles |
-| Autonomes | Délégation dynamique à des sous-agents avec transfert de droits | Délégation d'accès (OAuth 2.0), séparation des tâches (SoD) |
+<div style="overflow-x:auto;">
+<table class="iam-table">
+  <thead>
+    <tr>
+      <th>Propriété</th>
+      <th>Conséquence</th>
+      <th>Aspects IAM mis en difficulté</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="prop-cell group-multiples">Multiples</td>
+      <td class="group-multiples">Volume massif de nouvelles identités à provisionner</td>
+      <td class="group-multiples">Provisionnement (SCIM, workflows IGA)</td>
+    </tr>
+    <tr>
+      <td class="prop-cell group-multiples-eph">Multiples +&nbsp;Éphémères</td>
+      <td class="group-multiples-eph">Volume massif de credentials à émettre, rotation et révocation à grande échelle</td>
+      <td class="group-multiples-eph">Gestion des credentials et secrets (PKI, gestionnaires de secrets)</td>
+    </tr>
+    <tr>
+      <td class="prop-cell group-ephemeres">Éphémères</td>
+      <td class="group-ephemeres">Identités disparaissant avant toute révision possible</td>
+      <td class="group-ephemeres">Recertification, access reviews (IGA)</td>
+    </tr>
+    <tr>
+      <td class="prop-cell group-rapides">Rapides</td>
+      <td class="group-rapides">Centaines de sessions et appels ouverts/fermés en quelques minutes</td>
+      <td class="group-rapides">Gestion des sessions, JIT access</td>
+    </tr>
+    <tr>
+      <td class="prop-cell group-nondetermin" rowspan="2">Non-déterministes</td>
+      <td class="group-nondetermin">Comportement légitime variable d'une exécution à l'autre</td>
+      <td class="group-nondetermin">Détection comportementale (UEBA, ITDR) — baseline comportementale structurellement difficile à établir</td>
+    </tr>
+    <tr>
+      <td class="group-nondetermin">Séquence d'appels et chemins d'exécution variables et opaques</td>
+      <td class="group-nondetermin">Journalisation et traçabilité des accès</td>
+    </tr>
+    <tr>
+      <td class="prop-cell group-autonomes" rowspan="4">Autonomes</td>
+      <td class="group-autonomes">Aucun principal humain identifiable derrière l'agent, aucune interaction humaine dans la boucle d'authentification</td>
+      <td class="group-autonomes">Authentification et fédération d'identité (SAML, OIDC) — conçus autour d'un humain qui consent et s'authentifie</td>
+    </tr>
+    <tr>
+      <td class="group-autonomes">Accès à des ressources non anticipées a priori</td>
+      <td class="group-autonomes">Contrôle d'accès aux ressources (RBAC, ABAC, least privilege)</td>
+    </tr>
+    <tr>
+      <td class="group-autonomes">Actions non anticipées initiées par l'agent (écriture, envoi, appel externe…)</td>
+      <td class="group-autonomes">Politiques d'autorisation des actions — supposent qu'on peut énumérer l'espace des actions possibles</td>
+    </tr>
+    <tr>
+      <td class="group-autonomes">Délégation dynamique à des sous-agents avec transfert de droits</td>
+      <td class="group-autonomes">Délégation d'accès (OAuth 2.0), séparation des tâches (SoD)</td>
+    </tr>
+  </tbody>
+</table>
+</div>
 
 Ce tableau montre que les méthodes traditionnelles ne sont pas simplement sous-dimensionnées — elles reposent sur des hypothèses (un humain dans la boucle, un périmètre d'accès définissable à l'avance, un comportement suffisamment stable pour établir une baseline) que les agents invalident structurellement.
 
