@@ -3,12 +3,12 @@
 ✍️ AI Referent </span> <span class="flex items-center gap-2">
 ⏱️ 4 min de lecture
 </span> </div> <div class="flex flex-wrap gap-2"> <span class="inline-block bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-sm font-medium hover:bg-purple-200 transition"> IAM </span><span class="inline-block bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-sm font-medium hover:bg-purple-200 transition"> Agentic systems </span> </div> </div> <!-- Post Content --> <div class="prose prose-lg max-w-none mb-12">  <h2 id="lidentité-mal-gouvernée-premier-vecteur-dattaque">L’identité mal gouvernée, premier vecteur d’attaque</h2>
-<p>La majorité des attaques cyber ne passent pas par des failles techniques sophistiquées. Elles exploitent des identités mal gouvernées : un credential volé et jamais révoqué, un compte avec des droits au-delà de ce qu’il devrait avoir, une permission accordée pour dépanner en urgence et oubliée depuis. En résumé, des identités dont le cycle de vie (création, droits, révision, suppression) n’est pas maîtrisé.</p>
-<p>Ce problème risque de prendre encore de l’ampleur avec des systèmes agentiques où des identités non-humaines (NHI) sont créées en masse. Chaque agent est une identité. Chaque service account qu’il utilise est une identité. Chaque clé API qu’il consomme est une identité. Et ces identités prolifèrent à une vitesse et dans des volumes inédits jusqu’à maintenant.</p>
+<p>La majorité des attaques cyber ne passent pas par des failles techniques sophistiquées. Elles exploitent des identités mal gouvernées : un credential volé et jamais révoqué, un compte avec des droits au-delà de ce qu’il devrait avoir, une permission accordée pour dépanner en urgence et oubliée depuis. En résumé, des identités dont le cycle de vie (création, droits, révision, suppression) n’est pas maîtrisé. L’identité est définie ici comme une entité dotée d’un identifiant, pouvant s’authentifier et recevoir des autorisations.</p>
+<p>Ce problème des identités mal gérées risque de prendre encore plus d’ampleur avec des systèmes agentiques où des identités non-humaines (<em>Non-Human Identity</em> ou NHI) , sont créées en masse. Chaque agent est une identité. Chaque <em>service account</em> qu’il utilise est une identité. Chaque clé API qu’il consomme est une identité. Et ces identités prolifèrent à une vitesse et dans des volumes inédits jusqu’à maintenant.</p>
 <p>Déployer des agents sans réponse claire à la question de la gouvernance des NHI, c’est aggraver structurellement la surface d’attaque.</p>
 <hr>
 <h2 id="les-nhi-dans-un-contexte-agentique">Les NHI dans un contexte agentique</h2>
-<p>Une NHI classique — un service account applicatif, une clé API d’intégration — est statique : elle est créée, elle tourne, elle est (rarement) révoquée. On sait à peu près ce qu’elle fait.</p>
+<p>Une NHI classique — un <em>service account</em>, un client OAuth2 — est statique : elle est créée, elle tourne, elle est (rarement) révoquée. On sait à peu près ce qu’elle fait.</p>
 <p>Les NHI agentiques sont d’une nature différente, et c’est là que la difficulté commence.</p>
 <p>Un agent IA n’est pas un processus déterministe qui exécute toujours la même séquence d’actions. Il raisonne, planifie, et décide quels outils appeler en fonction du contexte. Concrètement, cela produit plusieurs types de NHI imbriquées :</p>
 <p>→ L’agent lui-même a une identité pour s’authentifier auprès des systèmes qu’il orchestre.<br>
@@ -18,7 +18,7 @@
 <p>Ces imbrications reflètent cinq propriétés fondamentales des agents : ils sont <strong>multiples</strong>, <strong>éphémères</strong>, <strong>rapides</strong>, <strong>non-déterministes</strong> et <strong>autonomes</strong>. C’est précisément ces propriétés qui rendent la gouvernance des NHI agentiques difficile à assurer avec les méthodes IAM traditionnelles.</p>
 <hr>
 <h2 id="-pourquoi-les-méthodes-iam-traditionnelles-ne-suivent-pas">🔍 Pourquoi les méthodes IAM traditionnelles ne suivent pas</h2>
-<p>Les agents ne sont pas de simples NHI en plus grand nombre. Ils ont des propriétés qui mettent structurellement en difficulté les concepts et protocoles sur lesquels repose l’IAM traditionnel.</p>
+<p>Les agents ne sont pas de simples NHI en plus grand nombre. Ils ont des propriétés qui mettent structurellement en difficulté les concepts et protocoles sur lesquels repose l’IAM (<em>Identity Access Management</em>) traditionnel. Le tableau ci-dessous met en regard les caractéristiques des agents et les aspects de l’IAM impactés par ces caractéristiques.</p>
 
 
 
