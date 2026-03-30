@@ -12,4 +12,4 @@ In traditional deterministic information systems, **standard traceability** is g
 
 In contrast, agentic systems exhibit probabilistic and even adaptive behavior, making their actions difficult to fully predict or explain. As a result, standard traceability is no longer sufficient. Assigning responsibility may require reconstructing a complex causal chain that includes the system’s internal state, learned representations, and decision-making processes. This calls for a richer form of traceability—what can be termed **epistemic traceability**. The aim is to capture not only what happened, but also how and why it happened. This is the part most traditional logging systems miss.
 
-In future post we will see that the difficulty of implementing epistemic traceability may ultimately drive a shift in governance from fault-based accountability toward risk-based models.
+In a future post we will see that the difficulty of implementing epistemic traceability may ultimately drive a shift in governance from fault-based accountability toward risk-based models.
