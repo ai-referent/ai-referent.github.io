@@ -11,9 +11,9 @@ excerpt: "L'IAM a été conçu pour des humains. Les agents ne le sont pas. Et d
 
 ## L'identité mal gouvernée, premier vecteur d'attaque
 
-La majorité des attaques cyber ne passent pas par des failles techniques sophistiquées. Elles exploitent des identités mal gouvernées : un credential volé et jamais révoqué, un compte avec des droits au-delà de ce qu'il devrait avoir, une permission accordée pour dépanner en urgence et oubliée depuis. En résumé, des identités dont le cycle de vie (création, droits, révision, suppression) n'est pas maîtrisé.
+La majorité des attaques cyber ne passent pas par des failles techniques sophistiquées. Elles exploitent des identités mal gouvernées : un credential volé et jamais révoqué, un compte avec des droits au-delà de ce qu'il devrait avoir, une permission accordée pour dépanner en urgence et oubliée depuis. En résumé, des identités dont le cycle de vie (création, droits, révision, suppression) n'est pas maîtrisé. L'identité est définie ici comme une entité dotée d'un identifiant, pouvant s'authentifier et recevoir des autorisations.
 
-Ce problème risque de prendre encore de l'ampleur avec des systèmes agentiques où des identités non-humaines (NHI) sont créées en masse. Chaque agent est une identité. Chaque service account qu'il utilise est une identité. Chaque clé API qu'il consomme est une identité. Et ces identités prolifèrent à une vitesse et dans des volumes inédits jusqu'à maintenant.
+Ce problème des identités mal gérées risque de prendre encore plus d'ampleur avec des systèmes agentiques où des identités non-humaines (*Non-Human Identity* ou NHI) , sont créées en masse. Chaque agent est une identité. Chaque *service account* qu'il utilise est une identité. Chaque clé API qu'il consomme est une identité. Et ces identités prolifèrent à une vitesse et dans des volumes inédits jusqu'à maintenant.
 
 Déployer des agents sans réponse claire à la question de la gouvernance des NHI, c'est aggraver structurellement la surface d'attaque.
 
@@ -21,7 +21,7 @@ Déployer des agents sans réponse claire à la question de la gouvernance des N
 
 ## Les NHI dans un contexte agentique
 
-Une NHI classique — un service account applicatif, une clé API d'intégration — est statique : elle est créée, elle tourne, elle est (rarement) révoquée. On sait à peu près ce qu'elle fait.
+Une NHI classique — un *service account*, un client OAuth2 — est statique : elle est créée, elle tourne, elle est (rarement) révoquée. On sait à peu près ce qu'elle fait.
 
 Les NHI agentiques sont d'une nature différente, et c'est là que la difficulté commence.
 
@@ -38,7 +38,7 @@ Ces imbrications reflètent cinq propriétés fondamentales des agents : ils son
 
 ## 🔍 Pourquoi les méthodes IAM traditionnelles ne suivent pas
 
-Les agents ne sont pas de simples NHI en plus grand nombre. Ils ont des propriétés qui mettent structurellement en difficulté les concepts et protocoles sur lesquels repose l'IAM traditionnel.
+Les agents ne sont pas de simples NHI en plus grand nombre. Ils ont des propriétés qui mettent structurellement en difficulté les concepts et protocoles sur lesquels repose l'IAM (*Identity Access Management*) traditionnel. Le tableau ci-dessous met en regard les caractéristiques des agents et les aspects de l'IAM impactés par ces caractéristiques.
 
 | Propriété | Conséquence | Aspects IAM mis en difficulté |
 |---|---|---|
