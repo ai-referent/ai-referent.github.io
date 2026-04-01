@@ -10,7 +10,8 @@ excerpt: "DeepSeek-OCR 2 n'est pas qu'un nouveau modèle vision–langage. Son e
 
 ## Une architecture encodeur–décodeur, mais pas comme les autres
 
-[DeepSeek-OCR 2](https://lnkd.in/et7DGM9T) est un nouveau modèle encodeur–décodeur génératif, proche à première vue de modèles du type Flamingo ou BLIP-2 : un encodeur traduit une image en une séquence de tokens visuels et un décodeur génère de manière autorégressive, en étant conditionné par les tokens visuels à travers un mécanisme d'attention croisée.
+[DeepSeek-OCR 2](
+https://arxiv.org/abs/2601.20552) est un nouveau modèle encodeur–décodeur génératif, proche à première vue de modèles du type Flamingo ou BLIP-2 : un encodeur traduit une image en une séquence de tokens visuels et un décodeur génère de manière autorégressive, en étant conditionné par les tokens visuels à travers un mécanisme d'attention croisée.
 
 Mais l'originalité tient à la qualité de la représentation du contenu visuel produite par l'encodeur.
 
@@ -39,4 +40,4 @@ L'encodeur peut ainsi offrir au décodeur une **information sémantique et ordon
 
 ## Pourquoi ce nom ?
 
-Le titre complet est **DeepSeek-OCR 2 : Visual Causal Flow**. Vous savez maintenant pourquoi : le flux causal entre les tokens supplémentaires est le cœur de l'architecture, et ce qui distingue cet encodeur d'un encodeur visuel classique.
+Le titre complet est **DeepSeek-OCR 2 : Visual Causal Flow**. Vous savez maintenant pourquoi : le flux causal entre les tokens supplémentaires est le cœur de l'architecture, et c'est ce qui distingue cet encodeur d'un encodeur visuel classique.

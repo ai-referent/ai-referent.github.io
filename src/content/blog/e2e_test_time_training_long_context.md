@@ -10,7 +10,8 @@ excerpt: "Adapter le modèle token par token à ce qu'il lit : l'idée est audac
 
 Parmi les tendances récentes pour mieux prendre en compte les fenêtres de contexte : ne pas seulement prendre connaissance des tokens de la fenêtre mais les utiliser pour adapter le modèle à la volée.
 
-C'est ce que propose [End-to-End Test-Time Training for Long Context](https://lnkd.in/efSqMsiA).
+C'est ce que propose [End-to-End Test-Time Training for Long Context](
+https://arxiv.org/pdf/2512.23675).
 
 Ce qui paraît séduisant de prime abord dans ce papier c'est qu'ils font de l'apprentissage en ligne (*online training*) au niveau de chaque token d'une séquence, donc pas d'une séquence individuelle à une autre. Ca revient à traiter chaque token comme un data point, avec donc une mise à jour des poids pour chaque token traité.
 
