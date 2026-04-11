@@ -1,10 +1,10 @@
 ---
-title: "Une condition indispensable pour une entreprise gouvernable, transparente et sûre : la gestion maîtrisée de ses identités numériques"
+title: "Bien gérer les identités numériques : la base d'une entreprise sécurisée et gouvernable"
 date: 2026-03-25
 author: "AI Referent"
 tags: [IAM, Agentic systems]
 reading_time: 4
-description: "To write later"
+description: "Accountability, auditabilité, sécurité opérationnelle : ces trois piliers d'une entreprise gouvernable reposent sur une condition souvent négligée — la maîtrise du cycle de vie des identités numériques."
 ---
 
 
