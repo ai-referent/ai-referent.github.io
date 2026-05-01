@@ -3,10 +3,10 @@ import DefaultLayout from '../../layouts/DefaultLayout.astro';
 
 const activites = [
   {
-    slug: 'amoa',
+    slug: 'conseil-cadrage',
     icon: '📋',
-    titre: 'AMOA',
-    soustitre: "Assistance à Maîtrise d'Ouvrage",
+    titre: "Conseil en cadrage des besoins métiers, conception fonctionnelle et sécurisation des choix de solutions",
+    soustitre: '',
     description: 'Accompagnement de projets IA de bout en bout : cadrage, pilotage, coordination entre équipes métier et techniques.',
   },
   {
@@ -14,7 +14,7 @@ const activites = [
     icon: '🎤',
     titre: 'Conférences / Sessions de décryptage / Sensibilisation',
     soustitre: '',
-    description: "Interventions en entreprise ou en formation pour démystifier l'IA, ses enjeux et ses usages concrets.",
+    description: "Interventions en entreprise pour démystifier l'IA, ses enjeux et ses usages concrets.",
   },
   {
     slug: 'docteur-ia',
@@ -31,16 +31,9 @@ const activites = [
     description: "Aide à la définition des profils, à l'évaluation technique et au choix des candidats pour les postes liés à l'IA.",
   },
   {
-    slug: 'gouvernance-donnees',
-    icon: '🗄️',
-    titre: 'Gouvernance des données',
-    soustitre: '',
-    description: 'TO DO',
-  },
-  {
-    slug: 'gouvernance-ia',
+    slug: 'gouvernance',
     icon: '⚖️',
-    titre: "Gouvernance de l'IA",
+    titre: 'Gouvernance',
     soustitre: '',
     description: 'TO DO',
   },
@@ -51,18 +44,21 @@ const activites = [
     soustitre: '',
     description: 'TO DO',
   },
+  {
+    slug: 'formation',
+    icon: '🎓',
+    titre: 'Formation',
+    soustitre: '',
+    description: 'TO DO',
+  },
 ];
 ---
 
-<DefaultLayout title="Activités">
+<DefaultLayout title="Services">
   <div class="max-w-5xl mx-auto px-4 sm:px-6 py-12">
 
     <div class="mb-10">
-      <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">🎯 Activités</h1>
-      <p class="text-xl text-gray-600 leading-relaxed max-w-3xl">
-        <!-- TO DO : texte de présentation générale -->
-        Lorem ipsum — présentation générale des activités à rédiger.
-      </p>
+      <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Services</h1>
     </div>
 
     <div class="cards-grid">
