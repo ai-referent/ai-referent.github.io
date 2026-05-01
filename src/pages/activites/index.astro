@@ -1,7 +1,7 @@
 ---
 import DefaultLayout from '../../layouts/DefaultLayout.astro';
 
-const activites = [
+const activitesMain = [
   {
     slug: 'conseil-cadrage',
     icon: '📋',
@@ -38,6 +38,16 @@ const activites = [
     description: 'TO DO',
   },
   {
+    slug: 'adoption-metiers',
+    icon: '🔄',
+    titre: 'Conseil en adoption et transformation des métiers',
+    soustitre: '',
+    description: "Accompagnement du changement, redéfinition des rôles et formation des équipes face à l'automatisation par l'IA.",
+  },
+];
+
+const activitesBottom = [
+  {
     slug: 'strategie-it',
     icon: '🚀',
     titre: "Conseil en stratégie IT augmentée par l'IA",
@@ -68,8 +78,19 @@ const activites = [
     </div>
 
     <div class="cards-grid">
-      {activites.map(a => (
+      {activitesMain.map(a => (
         <a href={`/activites/${a.slug}/`} class="card">
+          <span class="card-icon">{a.icon}</span>
+          <h2 class="card-title">{a.titre}</h2>
+          {a.soustitre && <p class="card-sub">{a.soustitre}</p>}
+          <p class="card-desc">{a.description}</p>
+        </a>
+      ))}
+    </div>
+
+    <div class="cards-bottom">
+      {activitesBottom.map(a => (
+        <a href={`/activites/${a.slug}/`} class="card card-bottom">
           <span class="card-icon">{a.icon}</span>
           <h2 class="card-title">{a.titre}</h2>
           {a.soustitre && <p class="card-sub">{a.soustitre}</p>}
@@ -88,6 +109,14 @@ const activites = [
     gap: 1.5rem;
   }
 
+  .cards-bottom {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+  }
+
   .card {
     background: #ffffff;
     border-radius: 20px;
@@ -98,6 +127,11 @@ const activites = [
       6px 6px 18px rgba(180, 140, 60, 0.15),
       -3px -3px 10px rgba(255, 255, 255, 0.9);
     transition: box-shadow 0.2s ease, transform 0.18s ease;
+  }
+
+  .card-bottom {
+    flex: 0 0 calc(33.333% - 1rem);
+    min-width: 260px;
   }
 
   .card:hover {
@@ -145,5 +179,7 @@ const activites = [
 
   @media (max-width: 600px) {
     .cards-grid { grid-template-columns: 1fr; }
+    .cards-bottom { flex-direction: column; }
+    .card-bottom { flex: 1 1 auto; }
   }
 </style>
