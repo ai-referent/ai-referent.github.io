@@ -1,13 +1,13 @@
 ---
 import DefaultLayout from '../../layouts/DefaultLayout.astro';
 
-const activitesMain = [
+const activitesTop = [
   {
-    slug: 'conseil-cadrage',
-    icon: '📋',
-    titre: "Conseil en cadrage fonctionnel et sélection de solutions",
+    slug: 'conseil-transformation-ia',
+    icon: '🔧',
+    titre: "Conseil en transformation par l'IA",
     soustitre: '',
-    description: 'Accompagnement de projets IA de bout en bout : cadrage, pilotage, coordination entre équipes métier et techniques.',
+    description: "Une prestation à mi-chemin entre le cabinet de conseil (diagnostic, priorisation) et le studio tech, avec les futurs utilisateurs impliqués dès le build.",
   },
   {
     slug: 'conferences',
@@ -17,26 +17,15 @@ const activitesMain = [
     description: "Interventions en entreprise pour démystifier l'IA, ses enjeux et ses usages concrets.",
   },
   {
-    slug: 'talent-advisory-it',
-    icon: '🎯',
-    titre: 'Talent advisory IT',
-    soustitre: '',
-    description: "Aide à la définition des profils, à l'évaluation technique et au choix des candidats pour les postes liés à l'IA.",
-  },
-  {
     slug: 'gouvernance',
     icon: '⚖️',
-    titre: 'Gouvernance',
+    titre: "Structurer votre gouvernance Data & IA",
     soustitre: '',
     description: 'TO DO',
   },
-  {
-    slug: 'conseil-transformation-ia',
-    icon: '🔧',
-    titre: "Conseil en transformation par l'IA",
-    soustitre: '',
-    description: "Une prestation à mi-chemin entre le cabinet de conseil (diagnostic, priorisation) et le studio tech, avec les futurs utilisateurs impliqués dès le build.",
-  },
+];
+
+const activitesBottom = [
   {
     slug: 'acheter-ia',
     icon: '🛡️',
@@ -44,8 +33,21 @@ const activitesMain = [
     soustitre: "L'expert IA dans votre camp",
     description: "Quelques jours de travail pour éviter des mois de prestation mal achetée : cahier des charges, grille d'évaluation, sélection de prestataires.",
   },
+  {
+    slug: 'talent-advisory-it',
+    icon: '🎯',
+    titre: 'Talent advisory IT',
+    soustitre: '',
+    description: "Aide à la définition des profils, à l'évaluation technique et au choix des candidats pour les postes liés à l'IA.",
+  },
+  {
+    slug: 'conseil-strategique-technique',
+    icon: '🧭',
+    titre: 'Conseil stratégique technique',
+    soustitre: 'Session intensive demi-journée',
+    description: "Une demi-journée pour comprendre où va vraiment l'IA : architectures émergentes, ruptures à venir, conséquences concrètes sur vos systèmes et vos choix.",
+  },
 ];
-
 ---
 
 <DefaultLayout title="Services">
@@ -62,7 +64,18 @@ const activitesMain = [
     </div>
 
     <div class="cards-grid">
-      {activitesMain.map(a => (
+      {activitesTop.map(a => (
+        <a href={`/activites/${a.slug}/`} class="card">
+          <span class="card-icon">{a.icon}</span>
+          <h2 class="card-title">{a.titre}</h2>
+          {a.soustitre && <p class="card-sub">{a.soustitre}</p>}
+          <p class="card-desc">{a.description}</p>
+        </a>
+      ))}
+    </div>
+
+    <div class="cards-grid cards-bottom-row">
+      {activitesBottom.map(a => (
         <a href={`/activites/${a.slug}/`} class="card">
           <span class="card-icon">{a.icon}</span>
           <h2 class="card-title">{a.titre}</h2>
@@ -78,16 +91,12 @@ const activitesMain = [
 <style>
   .cards-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: 1.5rem;
   }
 
-  .cards-bottom {
-    display: flex;
-    justify-content: center;
-    gap: 1.5rem;
+  .cards-bottom-row {
     margin-top: 1.5rem;
-    flex-wrap: wrap;
   }
 
   .card {
@@ -100,11 +109,6 @@ const activitesMain = [
       6px 6px 18px rgba(180, 140, 60, 0.15),
       -3px -3px 10px rgba(255, 255, 255, 0.9);
     transition: box-shadow 0.2s ease, transform 0.18s ease;
-  }
-
-  .card-bottom {
-    flex: 0 0 calc(33.333% - 1rem);
-    min-width: 260px;
   }
 
   .card:hover {
@@ -150,9 +154,7 @@ const activitesMain = [
     line-height: 1.55;
   }
 
-  @media (max-width: 600px) {
+  @media (max-width: 800px) {
     .cards-grid { grid-template-columns: 1fr; }
-    .cards-bottom { flex-direction: column; }
-    .card-bottom { flex: 1 1 auto; }
   }
 </style>
