@@ -1,6 +1,16 @@
 \documentclass{article}
 \usepackage{amsmath, amssymb}
 \usepackage{xcolor}
+\usepackage{tcolorbox}
+\tcbset{
+  examplebox/.style={
+    colback=gray!8,
+    colframe=gray!40,
+    boxrule=0.4pt,
+    arc=3pt,
+    left=6pt, right=6pt, top=4pt, bottom=4pt
+  }
+}
 
 \title{Positional Embeddings \\ 
 {\small De l'absolu au relatif !}}
@@ -14,22 +24,26 @@
 
 Les textes sont des séquences et l'ordre des mots contribue fortement au sens. 
 
+\begin{tcolorbox}[examplebox]
 \begin{verbatim}
-Il faut manger pour vivre 
+Il faut manger pour vivre
 Il faut vivre pour manger
 
 Pierre aime Julie
 Julie aime Pierre
 \end{verbatim}
+\end{tcolorbox}
 
 
 Il est donc important d'intégrer  des informations de position dans la représentation vectorielle  des mots (plus exactement, des tokens) que l'on fournit en entrée à un modèle d'IA. Cette information est notamment essentielle pour le bon fonctionnement du mécanisme d'attention qui ne peut pas travailler sur un "sac de mots" (\textit{ag of words}) sans structure.
 
 Au début du traitement, le modèle d'IA va associer à chaque token un vecteur initial (ce vecteur est un un token embedding) extrait d'une table associant un embedding à chaque token. Une approche naïve peut consister à associer à chaque token embedding l'index de la position dans la séquence. Ca semble raisonnable puisqu'on a ainsi noté où se trouve chaque token dans la séquence. Dans l'exemple "Il faut manger pour vivre", on peut ainsi associer l'index $2$ (en numérotant à partir de $0$) au token "manger", mais on remarque aussi que lors du traitement de "Il faut vivre pour manger" on associera l'index $2$ au token "vivre". On voit déjà le côté arbitraire des positions "absolues". Par exemple, dans un texte ou "vivre pour manger" serait répété à deux endroits différents  :
 
+\begin{tcolorbox}[examplebox]
 \begin{verbatim}
 Il faut vivre pour manger oui  vraiment vivre pour manger.
 \end{verbatim}
+\end{tcolorbox}
 
 
 des patterns différents, par exemple  (3, 4) et (8, 9) sont associés à un même phénomène, un groupe prépositionnel à l'infinitif liant la même préposition au même verbe. On va aisni créer une distinction artifiicelle entre les représentations des deux occurrences de "pour" et"manger"   alors que ces occurrences participent à un même phénomène linguistique local : l'important c'est le fait que "manger" suit immédiatement "pour", c'est-à-dire la position "relative" des deux mots et non leurs positions absolues individuelles. A l'extrême, on voit que si on décale toute la phrase de quelques positions, même si le contenu linguistique reste à peu près  inchangé, la représentation interne deviendra très différente. La conséquence est que le modèle risque d'associer certaines propriétés à des positions particulières alors qu'elles dépendent en réalité uniquement de la distance entre les mots.
@@ -43,7 +57,7 @@ Cette conséquence apparaît quand on calcule les similarités entre \textit{que
    
  Des structures locales similaires étant représentées de façon différentes en fonction de leur indexation absolue, le modèle aura beaucoup de mal à généraliser de manière efficace.
  
- Pour résoudre ce problème, il faut que le score ne soit plus dépendant des positions $p$ et $q$ pris individuellement mais de la distance $p-q$ entre les tokens. Dans la suite on va voir comment cette nécessité a été progressivement prise en compte au fur et à mesure de l'évolution des modèles Transformer. En effet, on va voir que dans les premiers modèles Transformer on utilise certes une approximation implicite de la structure relative, mais pas un mécanisme intrinsèquement relatif. Cette limite a été corrigée dans des modèles plus récents (RoPE, ALiBi, etc.) où la dépendance relative  a été prise plus directement en compte dans le score d’attention lui-même.
+ Pour résoudre ce problème, il faut que le score ne soit plus dépendant des positions $p$ et $q$ pris individuellement mais de la distance $q-p$ entre les tokens. Dans la suite on va voir comment cette nécessité a été progressivement prise en compte au fur et à mesure de l'évolution des modèles Transformer. En effet, on va voir que dans les premiers modèles Transformer on utilise certes une approximation implicite de la structure relative, mais pas un mécanisme intrinsèquement relatif. Cette limite a été corrigée dans des modèles plus récents (RoPE, ALiBi, etc.) où la dépendance relative  a été prise plus directement en compte dans le score d’attention lui-même.
 
  \section{Prise en compte implicite des distances relatives dans l’architecture de Vaswani et al. (2017)}
  
@@ -104,7 +118,7 @@ Si on compare deux positions $p$ et $q$, sur une seule fréquence $\omega_k$, le
 \begin{align}
 \mathbf{v}_k(p)\cdot \mathbf{v}_k(q)
 &= \cos(\omega_k p)\cos(\omega_k q) + \sin(\omega_k p)\sin(\omega_k q) \\
-&= \cos(\omega_k(p-q))
+&= \cos(\omega_k(q-p))
 \end{align}
 
 Le produit scalaire global entre deux encodings est alors :
@@ -116,10 +130,10 @@ Le produit scalaire global entre deux encodings est alors :
 \]
 
 
-Au final, avec la représentation sinusoidale proposée par Vaswani, \textbf{le produit scalaire entre deux encodages positionnels dépend uniquement de la différence $p-q$ et s’exprime comme une somme de cosinus à différentes fréquences, formant une signature multi-échelle de la distance relative}.
+Au final, avec la représentation sinusoidale proposée par Vaswani, \textbf{le produit scalaire entre deux encodages positionnels dépend uniquement de la différence $q-p$ et s’exprime comme une somme de cosinus à différentes fréquences, formant une signature multi-échelle de la distance relative}.
 
 
-Malheureusement, cette dépendance claire à $p-q$ ne va pas être exploitée pleinement par les mécanismes d'attention des premiers modèles Transformer. En effet, dans ces modèles, les embeddings positionnels sont ajoutés aux embeddings de contenu :
+Malheureusement, cette dépendance claire à $q-p$ ne va pas être exploitée pleinement par les mécanismes d'attention des premiers modèles Transformer. En effet, dans ces modèles, les embeddings positionnels sont ajoutés aux embeddings de contenu :
 
 \[
 x_p = e_p + \mathrm{PE}(p)
@@ -172,10 +186,10 @@ le score étant donc :
 Avec RoPE, on n'impose rien a-priori, et on cherche juste une représentation respectant une contrainte fonctionnelle sur le résultat final, comme exprimé par l'équation (11) de l'article sur RoPE~\cite{rope} : 
 
 \[
-\langle f_q(x_q, q), f_k(x_p, p) \rangle = g(x_q, x_p, p - q)
+\langle f_q(x_q, q), f_k(x_p, p) \rangle = G(x_q, x_p, q - p)
 \]
 
-Comme le montre la signature de la fonction $g$, cette contrainte est destinée à garantir que le score entre deux tokens dépend du contenu sémantique des tokens et de leur distance relative. 
+Comme le montre la signature de la fonction $G$, cette contrainte est destinée à garantir que le score entre deux tokens dépend du contenu sémantique des tokens et de leur distance relative. 
 
 Les auteurs de RoPE ont ainsi déterminé une représentation permettant de respecter cette contrainte :
 
@@ -199,19 +213,19 @@ h^{(K-1)} e^{i q \theta_{K-1}}
 f_k(x_p,p)
 =
 \Big(
-h^{(0)} e^{i p \theta_0},
+g^{(0)} e^{i p \theta_0},
 \;
-h^{(1)} e^{i p \theta_1},
+g^{(1)} e^{i p \theta_1},
 \;
 \ldots,
 \;
-h^{(K-1)} e^{i p \theta_{K-1}}
+g^{(K-1)} e^{i p \theta_{K-1}}
 \Big),
 \qquad
-%h^{(k)} \in \mathbb{C}.
+%g^{(k)} \in \mathbb{C}.
 \]
 
-$h^{k}$ correspond à une paire de dimensions du vecteur de contenu projeté. Un peu comme dans Vaswani, on regroupe donc des dimensions par paire, mais ici on regroupe les dimensions du vecteur de contenu pas du vecteur de position (voir Note 2 plus bas). On va voir que chaque nombre complexe $e^{i p \theta_{k}}$ représente une matrice de rotation appliquée à la paire de dimensions $h^{k}$ ($h^{k}$ que par abus de notation on se permet d'identifier ici au nombre complexe associé pour que la formule de multiplication soit correcte).
+$h^{(k)}$ (resp. $g^{(k)}$) correspond à une paire de dimensions du vecteur de contenu projeté de la \textit{query} (resp. de la \textit{key}). Un peu comme dans Vaswani, on regroupe donc des dimensions par paire, mais ici on regroupe les dimensions du vecteur de contenu pas du vecteur de position (voir Note 2 plus bas). On va voir que chaque nombre complexe $e^{i p \theta_{k}}$ représente une matrice de rotation appliquée à la paire de dimensions $g^{(k)}$ ($g^{(k)}$ que par abus de notation on se permet d'identifier ici au nombre complexe associé pour que la formule de multiplication soit correcte).
 
 Pour résumer, on applique une projection sur les embeddings de contenu, puis les composantes (organisées en paires issues de l’embedding de contenu projeté) subissent chacune une rotation indépendante dans des plans 2D, avec un angle qui est un multiple de la position.
 
@@ -323,29 +337,24 @@ RoPE n'a pas découvert la notion de distance relative mais l'utilise explicitem
 
 
 \[
-\begin{array}{c|c}
-\text{Vaswani} & \text{RoPE} \\
+\begin{array}{l|p{5cm}|p{5cm}}
+ & \textbf{Vaswani (2017)} & \textbf{RoPE (2021)} \\
 \hline
-\parbox{6cm}{
-\centering
-position injectée dans les représentations de tokens\\
-via un ajout direct aux embeddings
-}
-&
-\parbox{6cm}{
-\centering
-position injectée via une rotation dépendant de la position
-}
-\\
-\parbox{6cm}{
-\centering
-dépendance implicite au relatif
-}
-&
-\parbox{6cm}{
-\centering
-dépendance algébrique explicite
-}
+\text{Démarche}
+  & Représentation imposée a priori ; propriétés observées a posteriori
+  & Propriété cible définie a priori ; représentation construite en conséquence \\
+\hline
+\text{Injection}
+  & Addition d'un vecteur de position au vecteur de contenu
+  & Rotation du vecteur de contenu selon la position \\
+\text{de la position}
+  & $x_p = e_p + \mathrm{PE}(p)$
+  & $f_q(x_q,q) = R(q)\,W_Q x_q$ \\
+\hline
+\text{Dépendance à } q-p
+  & Implicite : présente dans le terme position-position, masquée par les termes croisés contenu-position
+  & Algébrique, garantie par construction :
+    $\langle f_q, f_k \rangle = \sum_k h^{(k)}\overline{g^{(k)}}\, e^{i(q-p)\theta_k}$ \\
 \end{array}
 \]
 
@@ -397,9 +406,9 @@ le tableau ci-dessous récapitule les différences entre les deux approches:
 x + \mathrm{PE}(p)
 &
 f_q(x_q,q),\; f_k(x_p,p)\ \text{inconnues} \\
-\text{dépendance à } (p-q)\ \text{indirecte}
+\text{dépendance à } (q-p)\ \text{indirecte}
 &
-\text{dépendance à } (p-q)\ \text{imposée}
+\text{dépendance à } (q-p)\ \text{imposée}
 \end{array}
 \]
 
@@ -427,7 +436,7 @@ Si on compare deux positions $p$ et $q$, sur une seule paire frequentielle, le p
 \begin{align}
 \mathrm{pos}_k(p)\cdot \mathrm{pos}_k(q)
 &= \cos(\omega_k p)\cos(\omega_k q) + \sin(\omega_k p)\sin(\omega_k q) \\
-&= \cos(\omega_k(p-q))
+&= \cos(\omega_k(q-p))
 \end{align}
 
 
@@ -436,8 +445,8 @@ Si on compare deux positions $p$ et $q$, sur une seule paire frequentielle, le p
 \left(\cos(\omega p) + i\sin(\omega p)\right)
 \left(\cos(\omega q) - i\sin(\omega q)\right)
 =
-\cos\big(\omega (p - q)\big)
-+ i \sin\big(\omega (p - q)\big)
+\cos\big(\omega (q - p)\big)
++ i \sin\big(\omega (q - p)\big)
 \]
 
 
@@ -504,7 +513,7 @@ To make attention depend on relative position, we embed tokens into multiple ind
 \begin{align}
 \mathrm{pos}_k(p)\cdot \mathrm{pos}_k(q)
 &= \cos(\omega_k p)\cos(\omega_k q) + \sin(\omega_k p)\sin(\omega_k q) \\
-&= \cos(\omega_k(p-q))
+&= \cos(\omega_k(q-p))
 \end{align}
 
 \subsection{Complex form}
@@ -514,13 +523,13 @@ z_k(p) = e^{i\omega_k p}, \quad z_k(q) = e^{i\omega_k q}
 \]
 
 \begin{align}
-z_k(p)\overline{z_k(q)}
-&= e^{i\omega_k p} e^{-i\omega_k q} \\
-&= e^{i\omega_k(p-q)}
+z_k(q)\overline{z_k(p)}
+&= e^{i\omega_k q} e^{-i\omega_k p} \\
+&= e^{i\omega_k(q-p)}
 \end{align}
 
 \[
-\Re(z_k(p)\overline{z_k(q)}) = \cos(\omega_k(p-q))
+\Re(z_k(q)\overline{z_k(p)}) = \cos(\omega_k(q-p))
 \]
 
 \subsection{real and complex another comp}
@@ -549,13 +558,13 @@ e^{i\theta(p)} \, e^{-i\theta(q)}
 Attention positional interactions depend only on relative distance:
 
 \[
-p - q
+q - p
 \]
 
 Thus:
 
 \[
-Q_p \cdot K_q \approx g(c_p, c_q, p-q)
+Q_p \cdot K_q \approx G(c_p, c_q, q-p)
 \]
 
 \subsection{Limitations de s PE de Vaswani}
