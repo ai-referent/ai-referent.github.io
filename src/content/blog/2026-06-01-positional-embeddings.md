@@ -62,7 +62,7 @@ PE=
 \end{bmatrix}
 $$
 
-*(paire associée à $\omega_0$ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; paire associée à $\omega_1$)*
+$$\underbrace{\hspace{3cm}}_{\text{paire associée à }\omega_0} \qquad \underbrace{\hspace{3cm}}_{\text{paire associée à }\omega_1}$$
 
 On peut faire deux remarques. la première, moins importante pour notre exposé, mais intéressant quand même à noter est que les arguments des sinus et cosinus peuvent être vus comme des phases instantanées $\omega_i t$, où $t = \mathrm{pos}$ et $\omega_i = 10000^{-2i/d_{\mathrm{model}}}$ est une pulsation associée à chaque dimension.
 
@@ -77,11 +77,11 @@ $$\mathrm{PE}(p) = \big[\sin(\omega_0 p), \cos(\omega_0 p), \sin(\omega_1 p), \c
 
 Le vecteur de position est structuré en sous-vecteurs 2D, un par fréquence. Si on compare deux positions $p$ et $q$, sur une seule fréquence $\omega_k$, le produit scalaire vaut :
 
-$$\begin{align}
+$$\begin{aligned}
 \mathbf{v}_k(p)\cdot \mathbf{v}_k(q)
 &= \cos(\omega_k p)\cos(\omega_k q) + \sin(\omega_k p)\sin(\omega_k q) \\
 &= \cos(\omega_k(q-p))
-\end{align}$$
+\end{aligned}$$
 
 Le produit scalaire global entre deux encodings est alors :
 
@@ -118,7 +118,7 @@ Le dernier terme de la somme représente bien des interactions position-position
 
 ## Prise en compte explicite des distances relatives : les *Rotary Position Embedding* (RoPE)
 
-Pour remédier aux problèmes qui viennent d'être évoqués, certains chercheurs ont essayé de définir explicitement quelle représentation devaient avoir les vecteurs participant aux produits scalaires entre $query$ et $key$ de manière à intégrer proprement l'information de distance relative.
+Pour remédier aux problèmes qui viennent d'être évoqués, certains chercheurs [(Su et al., 2021)](https://arxiv.org/abs/2104.09864) ont essayé de définir explicitement quelle représentation devaient avoir les vecteurs participant aux produits scalaires entre $query$ et $key$ de manière à intégrer proprement l'information de distance relative.
 
 Dans l'approche de Vaswani on se souvient qu'il n'y avait pas cette démarche conceptuelle. Les représentations utilisées dans les produits scalaires de l'attention entre tokens, (supposées obtenues par les fonctions $f_q(x_q, q)$ et $f_k(x_p, p)$) étaient en quelque sorte imposées : addition des embeddings de contenu et de position, puis multiplication par une matrice de projection :
 
@@ -126,9 +126,11 @@ $$f_q(x_q, q) = (x_q + \mathrm{PE}(q)) W_Q$$
 
 $$f_k(x_p, p) = (x_p + \mathrm{PE}(p)) W_K$$
 
-le score étant donc $\langle f_q(x_q, q), f_k(x_p, p) \rangle$.
+le score étant donc :
 
-Avec [RoPE](https://arxiv.org/abs/2104.09864), on n'impose rien a-priori, et on cherche juste une représentation respectant une contrainte fonctionnelle sur le résultat final, comme exprimé par l'équation (11) de l'article sur RoPE :
+$$\langle f_q(x_q, q), f_k(x_p, p) \rangle$$
+
+Avec RoPE, on n'impose rien a-priori, et on cherche juste une représentation respectant une contrainte fonctionnelle sur le résultat final, comme exprimé par l'équation (11) de l'article sur RoPE [(Su et al., 2021)](https://arxiv.org/abs/2104.09864) :
 
 $$\langle f_q(x_q, q), f_k(x_p, p) \rangle = G(x_q, x_p, q - p)$$
 
@@ -163,7 +165,11 @@ h^{(K-1)}
 \end{bmatrix}
 $$
 
-où $R_k(p) = \begin{pmatrix} \cos(\theta_k p) & -\sin(\theta_k p) \\ \sin(\theta_k p) & \cos(\theta_k p) \end{pmatrix}$ et $h^{(k)} \in \mathbb{R}^2$ désigne une paire de composantes du vecteur de contenu projeté (i.e. $h = Wx$), regroupées en sous-vecteurs de dimension 2.
+où :
+
+$$R_k(p) = \begin{pmatrix} \cos(\theta_k p) & -\sin(\theta_k p) \\ \sin(\theta_k p) & \cos(\theta_k p) \end{pmatrix}$$
+
+et $h^{(k)} \in \mathbb{R}^2$ désigne une paire de composantes du vecteur de contenu projeté (i.e. $h = Wx$), regroupées en sous-vecteurs de dimension 2.
 
 > **Note 1.** On n'a pas représenté explicitement la projection $h = Wx$ afin de mettre en évidence uniquement la structure en sous-espaces 2D, qui est le cœur de l'opération de RoPE.
 
@@ -175,7 +181,9 @@ $$f_q(x_q,q) = \big(h^{(0)} e^{i q \theta_0}, \ldots, h^{(K-1)} e^{i q \theta_{K
 
 $$f_k(x_p,p) = \big(g^{(0)} e^{i p \theta_0}, \ldots, g^{(K-1)} e^{i p \theta_{K-1}}\big)$$
 
-où $h^{(k)} = \text{contenu (query)}$, $g^{(k)} = \text{contenu (key)}$.
+où :
+
+$$h^{(k)} = \text{contenu (query)}, \qquad g^{(k)} = \text{contenu (key)}$$
 
 Le produit scalaire (hermitien) est alors :
 
