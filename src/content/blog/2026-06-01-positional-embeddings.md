@@ -77,11 +77,13 @@ $$\mathrm{PE}(p) = \big[\sin(\omega_0 p), \cos(\omega_0 p), \sin(\omega_1 p), \c
 
 Le vecteur de position est structuré en sous-vecteurs 2D, un par fréquence. Si on compare deux positions $p$ et $q$, sur une seule fréquence $\omega_k$, le produit scalaire vaut :
 
-$$\begin{aligned}
+$$
+\begin{aligned}
 \mathbf{v}_k(p)\cdot \mathbf{v}_k(q)
 &= \cos(\omega_k p)\cos(\omega_k q) + \sin(\omega_k p)\sin(\omega_k q) \\
 &= \cos(\omega_k(q-p))
-\end{aligned}$$
+\end{aligned}
+$$
 
 Le produit scalaire global entre deux encodings est alors :
 
@@ -99,7 +101,8 @@ $$Q = xW_Q,\quad K = xW_K,\quad V = xW_V$$
 
 et le score d'attention entre une *query* $q$ et une *key* $p$ devient :
 
-$$\begin{aligned}
+$$
+\begin{aligned}
 Q_q \cdot K_p
 &=
 \big(e_q + \mathrm{PE}(q)\big) W_Q
@@ -110,7 +113,8 @@ e_q^\top W_Q W_K^\top e_p \\
 &\quad + e_q^\top W_Q W_K^\top \mathrm{PE}(p) \\
 &\quad + \mathrm{PE}(q)^\top W_Q W_K^\top e_p \\
 &\quad + \mathrm{PE}(q)^\top W_Q W_K^\top \mathrm{PE}(p)
-\end{aligned}$$
+\end{aligned}
+$$
 
 Le dernier terme de la somme représente bien des interactions position-position mais les deux termes du milieu représentent des interactions contenu-position et position-contenu. La dépendance explicite à la distance relative est partiellement masquée par ces termes croisés.
 
