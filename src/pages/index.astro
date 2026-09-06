@@ -1,8 +1,8 @@
 ---
 import { getCollection } from 'astro:content';
 import DefaultLayout from '../layouts/DefaultLayout.astro';
-import PostCard from '../components/PostCard.astro';
 import { readFileSync } from 'fs';
+import { upcomingConferences } from '../data/upcoming-conferences';
 
 const svgDiagram = readFileSync('./secure-agentic-diagram.svg', 'utf-8');
 
@@ -12,8 +12,14 @@ const sortedPosts = allPosts.sort((a, b) => {
   return new Date(b.data.date).getTime() - new Date(a.data.date).getTime();
 });
 
-// Get the 5 most recent posts
-const recentPosts = sortedPosts.slice(0, 5);
+// Get the 3 most recent posts for the homepage carousel
+const recentPosts = sortedPosts.slice(0, 3);
+
+const conferenceDateFormatter = new Intl.DateTimeFormat('fr-FR', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
 ---
 
 <DefaultLayout title="Accueil">
@@ -57,19 +63,6 @@ const recentPosts = sortedPosts.slice(0, 5);
       </div>
     </section>
 
-    <!-- ===== PROJETS ===== -->
-    <section id="projets" class="mb-16">
-      <h2 class="text-3xl font-bold mb-6 text-gray-900">🛠️ Projets</h2>
-      <div class="bg-white rounded-lg shadow-md p-8 border border-gray-200">
-        <p class="text-lg text-gray-700 mb-6 leading-relaxed">
-          En plus de nombreux prototypes universitaires, j'ai joué un rôle central dans le développement de deux packages d'envergure : un outil d'évaluation automatisée de modèles multimodaux (PEReN) et <strong>Coclust</strong>, une librairie de co-clustering de textes publiée dans le <em>Journal of Statistical Software</em>.
-        </p>
-        <a href="/projects/" class="inline-block bg-blue-600 text-white font-semibold px-8 py-3 rounded-lg hover:bg-blue-700 transition">
-          Voir les projets ↠
-        </a>
-      </div>
-    </section>
-
     <!-- ===== CONTACT ===== -->
     <section id="contact" class="mb-16">
       <h2 class="text-3xl font-bold mb-6 text-gray-900">✉️ Contact</h2>
@@ -80,26 +73,57 @@ const recentPosts = sortedPosts.slice(0, 5);
       </div>
     </section>
 
-    <!-- ===== BLOG (articles récents) ===== -->
-    <section id="blog" class="mb-16">
-      <h2 class="text-3xl font-bold mb-6 text-gray-900">📝 Articles récents</h2>
-      <div class="grid gap-6">
-        {recentPosts.map((post) => (
-          <PostCard
-            title={post.data.title}
-            url={`/blog/${post.slug}`}
-            date={post.data.date}
-            tags={post.data.tags}
-            reading_time={post.data.reading_time}
-            excerpt={post.data.excerpt}
-          />
-        ))}
+    <!-- ===== ARTICLES RÉCENTS + CONFÉRENCES À VENIR ===== -->
+    <section class="mb-16 grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+
+      <!-- Colonne gauche : articles récents (carrousel statique) -->
+      <div id="blog">
+        <h2 class="text-3xl font-bold mb-6 text-gray-900">📝 Articles récents</h2>
+        <div class="flex gap-4 overflow-x-auto pb-2 -mx-1 px-1 snap-x">
+          {recentPosts.map((post) => (
+            <article class="snap-start shrink-0 w-72 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow p-6 border border-gray-200">
+              <h3 class="text-lg font-bold mb-3">
+                <a href={`/blog/${post.slug}`} class="text-blue-600 hover:text-blue-700 transition">
+                  {post.data.title}
+                </a>
+              </h3>
+              <div class="text-sm text-gray-600 mb-3">
+                📅 {new Intl.DateTimeFormat('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' }).format(post.data.date)}
+              </div>
+              {post.data.excerpt && <p class="text-gray-700 text-sm line-clamp-4">{post.data.excerpt}</p>}
+            </article>
+          ))}
+        </div>
+        <div class="mt-6 text-center">
+          <a href="/blog/" class="inline-block bg-blue-600 text-white font-semibold px-8 py-3 rounded-lg hover:bg-blue-700 transition">
+            Voir plus ↠
+          </a>
+        </div>
       </div>
-      <div class="mt-8 text-center">
-        <a href="/blog/" class="inline-block bg-blue-600 text-white font-semibold px-8 py-3 rounded-lg hover:bg-blue-700 transition">
-          Voir tous les articles ↠
-        </a>
+
+      <!-- Colonne droite : conférences à venir -->
+      <div id="conferences-a-venir">
+        <h2 class="text-3xl font-bold mb-6 text-gray-900">🎤 Conférences à venir</h2>
+        {upcomingConferences.length > 0 ? (
+          <div class="space-y-4">
+            {upcomingConferences.map((conf) => (
+              <div class="bg-white rounded-lg shadow-md p-6 border border-gray-200">
+                <h3 class="text-lg font-bold text-gray-900 mb-2">{conf.title}</h3>
+                <div class="text-sm text-gray-600 mb-3">📅 {conferenceDateFormatter.format(conf.date)}</div>
+                <p class="text-gray-700 mb-4">{conf.summary}</p>
+                <a href={conf.bookingUrl} class="inline-block bg-blue-600 text-white font-semibold px-6 py-2.5 rounded-lg hover:bg-blue-700 transition">
+                  Réserver ma place
+                </a>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div class="bg-white rounded-lg shadow-md p-8 border border-gray-200 text-gray-700">
+            Aucune conférence n'est programmée pour le moment. Consultez la page <a href="/activites/conferences/" class="text-blue-600 hover:text-blue-700 font-medium transition">Conférences</a> pour proposer un sujet.
+          </div>
+        )}
       </div>
+
     </section>
 
   </div>
